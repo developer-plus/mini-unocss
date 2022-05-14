@@ -27,6 +27,7 @@
 .hover\:h-200:hover {
   height: 200px;
 }
+
 .w-100 {
   width: 100px;
 }

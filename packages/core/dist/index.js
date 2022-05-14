@@ -82,11 +82,9 @@ var Compiler = class {
       this.compilerClassByRuleSting(vClass);
       this.compilerClassByRuleReg(vClass);
     });
-    console.log(this._ctx._vunocss);
     cssGenerator.generateCss();
   }
   compilerClassByRuleSting(vClass) {
-    console.log(this._ctx._rulesSting);
     this._ctx._rulesSting.forEach((rulesSting) => {
       const ruleSting = rulesSting[0];
       const fnRes = rulesSting[1]();
@@ -100,9 +98,8 @@ var Compiler = class {
     this._ctx._rulesReg.forEach((rulesReg) => {
       const reg = rulesReg[0];
       const fn = rulesReg[1];
-      const { className, flag, name } = vClass;
+      const { name } = vClass;
       const exec = reg.exec(name);
-      console.log(exec);
       if (exec) {
         const fnRes = fn(exec);
         loadCache(this._ctx, vClass, fnRes);
@@ -134,7 +131,7 @@ var Context = class {
   _presets;
   _rulesSting = [];
   _rulesReg = [];
-  _classNameSet = /* @__PURE__ */ new Set();
+  _classNameSet = [];
   _vunocss = [];
   _cache = /* @__PURE__ */ new Map();
   constructor(presets) {
@@ -165,28 +162,49 @@ var Context = class {
         res.split(" ").forEach((it) => {
           const splitClass = it.split(":");
           if (splitClass.length > 1) {
-            this._classNameSet.add({
+            const res2 = {
               className: it,
               flag: "pseudo",
               pseudo: splitClass[0],
               name: splitClass[1]
-            });
+            };
+            if (!this.hasClassNameSet(res2)) {
+              this._classNameSet.push({
+                className: it,
+                flag: "pseudo",
+                pseudo: splitClass[0],
+                name: splitClass[1]
+              });
+            }
           } else {
-            this._classNameSet.add({
+            const res2 = {
               className: it,
               flag: "class",
               name: it
-            });
+            };
+            if (!this.hasClassNameSet(res2)) {
+              this._classNameSet.push({
+                className: it,
+                flag: "class",
+                name: it
+              });
+            }
           }
         });
       } else {
         break;
       }
+      console.log("%c [this._classNameSet]-63-\u300Ccontext.ts\u300D", "font-size:13px; background:pink; color:#bf2c9f;", this._classNameSet);
     }
   }
   reset() {
     this._vunocss.length = 0;
-    this._classNameSet.clear();
+    this._classNameSet.length = 0;
+  }
+  hasClassNameSet(vClass) {
+    return this._classNameSet.some((v) => {
+      return v.className === vClass.className;
+    });
   }
 };
 
