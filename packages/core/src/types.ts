@@ -1,9 +1,17 @@
 export interface Vunocss {
-  key: string,
+  className: string,
   attrs: { [key: string]: string }
-  flag?: number
+  flag: 'pseudo' | 'class'
+  pseudo?: string
+  name?: string
 }
 
+export interface VClass {
+  className: string
+  flag: 'pseudo' | 'class'
+  pseudo?: string
+  name?: string
+}
 
 type PresetsRules = PresetsRulesString | PresetsRulesReg
 export type PresetsRulesString = [string, () => any]

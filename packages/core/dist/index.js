@@ -31,60 +31,95 @@ var CssGenerator = class {
   constructor(_ctx) {
     this._ctx = _ctx;
   }
-  convertCss() {
+  generateCss() {
+    const ctx = this._ctx;
     let css = "";
-    this._ctx._vunocss.forEach((vunocss) => {
-      let attrStr = "";
-      Object.keys(vunocss.attrs).forEach((key) => {
-        const value = vunocss.attrs[key];
-        attrStr += `${key}:${value};`;
-      });
-      css += `.${vunocss.key}{${attrStr}}`;
+    ctx._vunocss.forEach((vunocss) => {
+      if (vunocss.flag === "pseudo") {
+        css += this.generatePseudo(vunocss);
+      } else if (vunocss.flag === "class") {
+        css += this.generateString(vunocss);
+      }
     });
     console.log(css);
     this._ctx.reset();
-    return css;
+  }
+  generateString(vunocss) {
+    const { className } = vunocss;
+    const attrStr = this.generateAttrs(vunocss);
+    return `.${className}{${attrStr}}`;
+  }
+  generatePseudo(vunocss) {
+    const { className, pseudo } = vunocss;
+    const attrStr = this.generateAttrs(vunocss);
+    return `.${replaceClassName(className)}:${pseudo}{${attrStr}}`;
+  }
+  generateAttrs(vunocss) {
+    let attrStr = "";
+    Object.keys(vunocss.attrs).forEach((key) => {
+      const value = vunocss.attrs[key];
+      attrStr += `${key}:${value};`;
+    });
+    return attrStr;
   }
 };
+function replaceClassName(className) {
+  return className.replace(/\:/, "\\:");
+}
 
 // src/compiler.ts
 var Compiler = class {
   constructor(_ctx) {
     this._ctx = _ctx;
+    this.patch();
   }
   patch() {
-    this.compilerToClassName();
+    this.compilerClass();
   }
-  compilerToClassName() {
-    this._ctx._classNameSet.forEach((className) => {
-      this._ctx._rulesSting.forEach((rulesSting) => {
-        const ruleSting = rulesSting[0];
-        const fnRes = rulesSting[1]();
-        if (className === ruleSting) {
-          loadCache(this._ctx, className, fnRes);
-        }
-      });
-      this._ctx._rulesReg.forEach((rulesReg) => {
-        const reg = rulesReg[0];
-        const fn = rulesReg[1];
-        const exec = reg.exec(className);
-        if (exec) {
-          const fnRes = fn(exec);
-          loadCache(this._ctx, className, fnRes);
-        }
-      });
-    });
+  compilerClass() {
     const cssGenerator = new CssGenerator(this._ctx);
-    cssGenerator.convertCss();
+    this._ctx._classNameSet.forEach((vClass) => {
+      this.compilerClassByRuleSting(vClass);
+      this.compilerClassByRuleReg(vClass);
+    });
+    console.log(this._ctx._vunocss);
+    cssGenerator.generateCss();
+  }
+  compilerClassByRuleSting(vClass) {
+    console.log(this._ctx._rulesSting);
+    this._ctx._rulesSting.forEach((rulesSting) => {
+      const ruleSting = rulesSting[0];
+      const fnRes = rulesSting[1]();
+      const { name } = vClass;
+      if (name === ruleSting) {
+        loadCache(this._ctx, vClass, fnRes);
+      }
+    });
+  }
+  compilerClassByRuleReg(vClass) {
+    this._ctx._rulesReg.forEach((rulesReg) => {
+      const reg = rulesReg[0];
+      const fn = rulesReg[1];
+      const { className, flag, name } = vClass;
+      const exec = reg.exec(name);
+      console.log(exec);
+      if (exec) {
+        const fnRes = fn(exec);
+        loadCache(this._ctx, vClass, fnRes);
+      }
+    });
   }
 };
-function loadCache(ctx, className, fnRes) {
+function loadCache(ctx, vClass, fnRes) {
+  const { className, flag, name, pseudo } = vClass;
   let cacheVunocss = ctx._cache.get(className);
-  if (cacheVunocss) {
-  } else {
+  if (!cacheVunocss) {
     cacheVunocss = {
-      key: className,
-      attrs: fnRes
+      className,
+      attrs: fnRes,
+      flag,
+      pseudo,
+      name
     };
     ctx._cache.set(className, cacheVunocss);
   }
@@ -100,7 +135,6 @@ var Context = class {
   _rulesSting = [];
   _rulesReg = [];
   _classNameSet = /* @__PURE__ */ new Set();
-  _pseudoClassSet = /* @__PURE__ */ new Set();
   _vunocss = [];
   _cache = /* @__PURE__ */ new Map();
   constructor(presets) {
@@ -119,29 +153,40 @@ var Context = class {
       });
     });
   }
-  generatorCode(code) {
+  parseCode(code) {
+    this.extractClasses(code);
+    new Compiler(this);
+  }
+  extractClasses(code) {
     while (true) {
       const exec = classReg.exec(code);
       if (exec) {
         const res = exec[1];
         res.split(" ").forEach((it) => {
-          if (/\:/.test(it)) {
-            this._pseudoClassSet.add(it);
+          const splitClass = it.split(":");
+          if (splitClass.length > 1) {
+            this._classNameSet.add({
+              className: it,
+              flag: "pseudo",
+              pseudo: splitClass[0],
+              name: splitClass[1]
+            });
           } else {
-            this._classNameSet.add(it);
+            this._classNameSet.add({
+              className: it,
+              flag: "class",
+              name: it
+            });
           }
         });
       } else {
         break;
       }
     }
-    const compiler = new Compiler(this);
-    compiler.patch();
   }
   reset() {
     this._vunocss.length = 0;
     this._classNameSet.clear();
-    this._pseudoClassSet.clear();
   }
 };
 
@@ -160,7 +205,7 @@ function miniunocss({ presets }) {
     transform(code, id) {
       if (!filterVue(id))
         return;
-      context.generatorCode(code);
+      context.parseCode(code);
       return null;
     }
   };
