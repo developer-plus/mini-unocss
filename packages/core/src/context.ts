@@ -13,6 +13,8 @@ export function createContext(presets: Presets[]) {
   return new Context(presets);
 }
 export class Context {
+  code: string
+  _css: string
   _presets: Presets[];
   _rulesSting: PresetsRulesString[] = [];
   _rulesReg: PresetsRulesReg[] = [];
@@ -39,6 +41,7 @@ export class Context {
   parseCode(code: string) {
     this.extractClasses(code);
     new Compiler(this);
+    return this._css
   }
   extractClasses(code: string) {
     while (true) {
