@@ -1,4 +1,5 @@
 import { Context } from "./context";
+import { Flags } from "./flags";
 import { Vunocss } from "./types";
 
 export class CssGenerator {
@@ -8,9 +9,12 @@ export class CssGenerator {
     const ctx = this._ctx
     let css = ''
     ctx._vunocss.forEach(vunocss => {
-      if (vunocss.flag === 'pseudo') {
+      
+      
+      if (vunocss.flag & Flags.CLASS_PSEUDO) {
         css += this.generatePseudo(vunocss)
-      } else if (vunocss.flag === 'class') {
+      } else if (vunocss.flag & Flags.CLASS_STRING) {
+        console.log('vunocss.className', vunocss.className)
         css += this.generateString(vunocss)
       }
     })
@@ -20,7 +24,7 @@ export class CssGenerator {
   generateString(vunocss: Vunocss) {
     const {className} = vunocss
     const attrStr = this.generateAttrs(vunocss)
-    return `.${className}{${attrStr}}`
+    return `.${replaceClassName(className)}{${attrStr}}`
   }
   generatePseudo(vunocss: Vunocss) {
     const {className,pseudo} = vunocss
@@ -31,16 +35,24 @@ export class CssGenerator {
     let attrStr = ''
     Object.keys(vunocss.attrs).forEach(key => {
       const value = vunocss.attrs[key]
-      attrStr += `${key}:${value};`
+      attrStr += `${key}:${this.parseAttrValue(value)};`
     })
 
     return attrStr
   }
+  parseAttrValue(value: string) {
+    return isNotUnit(value) ? value : removeBrackets(value)
+  }
 }
 
 function replaceClassName(className: string) {
-
-  return className.replace(/\:/, '\\:')
+  return className.replace(/\:/, '\\:').replace(/\[/, '\\[').replace(/\]/, '\\]')
+}
+function removeBrackets(str: string) {
+  return str.replace(/\[/, '').replace(/\]/, '')
+}
+function isNotUnit(str: string) {
+  return !!(parseInt(str[str.length - 1])  + 1)
 }
 
 
