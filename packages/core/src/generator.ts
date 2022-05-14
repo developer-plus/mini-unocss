@@ -9,8 +9,6 @@ export class CssGenerator {
     const ctx = this._ctx
     let css = ''
     ctx._vunocss.forEach(vunocss => {
-      
-      
       if (vunocss.flag & Flags.CLASS_PSEUDO) {
         css += this.generatePseudo(vunocss)
       } else if (vunocss.flag & Flags.CLASS_STRING) {
@@ -19,6 +17,7 @@ export class CssGenerator {
       }
     })
     console.log(css);
+    this._ctx._css = css
     this._ctx.reset()
   }
   generateString(vunocss: Vunocss) {

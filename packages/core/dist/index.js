@@ -44,6 +44,7 @@ var CssGenerator = class {
       }
     });
     console.log(css);
+    this._ctx._css = css;
     this._ctx.reset();
   }
   generateString(vunocss) {
@@ -139,6 +140,8 @@ function createContext(presets) {
   return new Context(presets);
 }
 var Context = class {
+  code;
+  _css;
   _presets;
   _rulesSting = [];
   _rulesReg = [];
@@ -164,6 +167,7 @@ var Context = class {
   parseCode(code) {
     this.extractClasses(code);
     new Compiler(this);
+    return this._css;
   }
   extractClasses(code) {
     while (true) {
@@ -220,6 +224,25 @@ function filterVue(id) {
 }
 
 // src/index.ts
+var server;
+function invalidateVirtualModule(server2, id) {
+  if (!server2)
+    return;
+  const { moduleGraph, ws } = server2;
+  const module2 = moduleGraph.getModuleById(id);
+  if (module2) {
+    moduleGraph.invalidateModule(module2);
+    if (ws) {
+      ws.send({
+        type: "full-reload",
+        path: "*"
+      });
+    }
+  }
+}
+function update() {
+  invalidateVirtualModule(server, "u.css");
+}
 function miniunocss({ presets }) {
   const context = createContext(presets);
   return {
@@ -228,8 +251,21 @@ function miniunocss({ presets }) {
     transform(code, id) {
       if (!filterVue(id))
         return;
-      context.parseCode(code);
+      context.code = code;
+      update();
       return null;
+    },
+    resolveId(i) {
+      return i === "u.css" ? i : null;
+    },
+    load(i) {
+      if (i === "u.css") {
+        return context.parseCode(context.code);
+      }
+      return null;
+    },
+    configureServer(_server) {
+      server = _server;
     }
   };
 }
