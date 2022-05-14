@@ -5,8 +5,9 @@ import type {
   VClass,
   Vunocss,
 } from "./types";
-import { classReg } from "./regexps";
+import { brackets, classReg } from "./regexps";
 import { Compiler } from "./compiler";
+import { Flags } from "./flags";
 
 export function createContext(presets: Presets[]) {
   return new Context(presets);
@@ -46,22 +47,20 @@ export class Context {
         const res = exec[1];
         // todo 伪类
         res.split(" ").forEach((it) => {
-          let res: VClass;
+          let res: VClass = {
+            className: it,
+            flag: Flags.DEFAULT,
+          };
           const splitClass = it.split(":");
           if (splitClass.length > 1) {
-            res = {
-              className: it,
-              flag: "pseudo",
-              pseudo: splitClass[0],
-              name: splitClass[1],
-            };
+            res.flag |= Flags.CLASS_PSEUDO;
+            res.pseudo = splitClass[0];
+            res.name = splitClass[1];
           } else {
-            res = {
-              className: it,
-              flag: "class",
-              name: it,
-            };
+            res.flag |= Flags.CLASS_STRING;
+            res.name = it;
           }
+          this.hasBrackets(res)
           this.addClassSet(res);
         });
       } else {
@@ -81,6 +80,11 @@ export class Context {
   addClassSet(res: VClass) {
     if (!this.hasClassNameSet(res)) {
       this._classNameSet.push(res);
+    }
+  }
+  hasBrackets(res: VClass) {
+    if (brackets.test(res.className)) {
+      res.flag |= Flags.ARBITRARY_VALUE;
     }
   }
 }

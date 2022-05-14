@@ -25,6 +25,7 @@ module.exports = __toCommonJS(src_exports);
 
 // src/regexps.ts
 var classReg = /class=[\"|\'](.+?)[\"|\']/g;
+var brackets = /\[.+?\]/;
 
 // src/generator.ts
 var CssGenerator = class {
@@ -35,9 +36,10 @@ var CssGenerator = class {
     const ctx = this._ctx;
     let css = "";
     ctx._vunocss.forEach((vunocss) => {
-      if (vunocss.flag === "pseudo") {
+      if (vunocss.flag & 4 /* CLASS_PSEUDO */) {
         css += this.generatePseudo(vunocss);
-      } else if (vunocss.flag === "class") {
+      } else if (vunocss.flag & 1 /* CLASS_STRING */) {
+        console.log("vunocss.className", vunocss.className);
         css += this.generateString(vunocss);
       }
     });
@@ -47,7 +49,7 @@ var CssGenerator = class {
   generateString(vunocss) {
     const { className } = vunocss;
     const attrStr = this.generateAttrs(vunocss);
-    return `.${className}{${attrStr}}`;
+    return `.${replaceClassName(className)}{${attrStr}}`;
   }
   generatePseudo(vunocss) {
     const { className, pseudo } = vunocss;
@@ -58,13 +60,22 @@ var CssGenerator = class {
     let attrStr = "";
     Object.keys(vunocss.attrs).forEach((key) => {
       const value = vunocss.attrs[key];
-      attrStr += `${key}:${value};`;
+      attrStr += `${key}:${this.parseAttrValue(value)};`;
     });
     return attrStr;
   }
+  parseAttrValue(value) {
+    return isNotUnit(value) ? value : removeBrackets(value);
+  }
 };
 function replaceClassName(className) {
-  return className.replace(/\:/, "\\:");
+  return className.replace(/\:/, "\\:").replace(/\[/, "\\[").replace(/\]/, "\\]");
+}
+function removeBrackets(str) {
+  return str.replace(/\[/, "").replace(/\]/, "");
+}
+function isNotUnit(str) {
+  return !!(parseInt(str[str.length - 1]) + 1);
 }
 
 // src/compiler.ts
@@ -87,8 +98,8 @@ var Compiler = class {
   compilerClassByRuleSting(vClass) {
     this._ctx._rulesSting.forEach((rulesSting) => {
       const ruleSting = rulesSting[0];
-      const fnRes = rulesSting[1]();
-      const { name } = vClass;
+      const { name, flag } = vClass;
+      const fnRes = rulesSting[1](!(flag & 8 /* ARBITRARY_VALUE */));
       if (name === ruleSting) {
         loadCache(this._ctx, vClass, fnRes);
       }
@@ -98,10 +109,10 @@ var Compiler = class {
     this._ctx._rulesReg.forEach((rulesReg) => {
       const reg = rulesReg[0];
       const fn = rulesReg[1];
-      const { name } = vClass;
+      const { name, flag } = vClass;
       const exec = reg.exec(name);
       if (exec) {
-        const fnRes = fn(exec);
+        const fnRes = fn(exec, !(flag & 8 /* ARBITRARY_VALUE */));
         loadCache(this._ctx, vClass, fnRes);
       }
     });
@@ -160,41 +171,25 @@ var Context = class {
       if (exec) {
         const res = exec[1];
         res.split(" ").forEach((it) => {
+          let res2 = {
+            className: it,
+            flag: 16 /* DEFAULT */
+          };
           const splitClass = it.split(":");
           if (splitClass.length > 1) {
-            const res2 = {
-              className: it,
-              flag: "pseudo",
-              pseudo: splitClass[0],
-              name: splitClass[1]
-            };
-            if (!this.hasClassNameSet(res2)) {
-              this._classNameSet.push({
-                className: it,
-                flag: "pseudo",
-                pseudo: splitClass[0],
-                name: splitClass[1]
-              });
-            }
+            res2.flag |= 4 /* CLASS_PSEUDO */;
+            res2.pseudo = splitClass[0];
+            res2.name = splitClass[1];
           } else {
-            const res2 = {
-              className: it,
-              flag: "class",
-              name: it
-            };
-            if (!this.hasClassNameSet(res2)) {
-              this._classNameSet.push({
-                className: it,
-                flag: "class",
-                name: it
-              });
-            }
+            res2.flag |= 1 /* CLASS_STRING */;
+            res2.name = it;
           }
+          this.hasBrackets(res2);
+          this.addClassSet(res2);
         });
       } else {
         break;
       }
-      console.log("%c [this._classNameSet]-63-\u300Ccontext.ts\u300D", "font-size:13px; background:pink; color:#bf2c9f;", this._classNameSet);
     }
   }
   reset() {
@@ -205,6 +200,16 @@ var Context = class {
     return this._classNameSet.some((v) => {
       return v.className === vClass.className;
     });
+  }
+  addClassSet(res) {
+    if (!this.hasClassNameSet(res)) {
+      this._classNameSet.push(res);
+    }
+  }
+  hasBrackets(res) {
+    if (brackets.test(res.className)) {
+      res.flag |= 8 /* ARBITRARY_VALUE */;
+    }
   }
 };
 

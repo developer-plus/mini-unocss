@@ -25,13 +25,13 @@ module.exports = __toCommonJS(src_exports);
 
 // src/theme/color.ts
 var color_default = [
-  [/^bg-(.+?)$/, ([_, d]) => ({ "background-color": `${d}` })]
+  [/^bg-\[?(.+?)\]?$/, ([_, d], isNotUnit) => ({ "background-color": `${d}` })]
 ];
 
 // src/theme/size.ts
 var size_default = [
-  [/^w-(\[?.+?\]?)$/, ([_, d]) => ({ width: `${d}px` })],
-  [/^h-(\[?.+?\]?)$/, ([_, d]) => ({ height: `${d}px` })]
+  [/^w-(.+?)$/, ([_, d], isNotUnit) => ({ width: isNotUnit ? `${d}px` : d })],
+  [/^h-(.+?)$/, ([_, d], isNotUnit) => ({ height: isNotUnit ? `${d}px` : d })]
 ];
 
 // src/theme/index.ts
