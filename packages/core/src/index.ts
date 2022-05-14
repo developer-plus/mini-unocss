@@ -1,8 +1,8 @@
 import { createContext } from "./context"
-import {PluginOption} from 'vite'
+import { PluginOption } from 'vite'
 import { filterVue } from "./utils"
 
-type PresetsRules = [string | RegExp, () => any]
+type PresetsRules = [string | RegExp, (exec: RegExpExecArray) => any]
 export type PresetsRulesString = [string, () => any]
 export type PresetsRulesReg = [RegExp, (exec: RegExpExecArray) => any]
 
@@ -14,10 +14,10 @@ export interface Presets {
 }
 
 export function miniunocss({ presets }: MiniunocssParams) {
-  
+
   const context = createContext(presets)
-  
-  
+
+
 
   return {
     name: 'miniunocss',
