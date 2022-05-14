@@ -23,6 +23,11 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
+// src/theme/color.ts
+var color_default = [
+  [/^bg-(.+?)$/, ([_, d]) => ({ "background-color": `${d}` })]
+];
+
 // src/theme/size.ts
 var size_default = [
   [/^w-(\[?.+?\]?)$/, ([_, d]) => ({ width: `${d}px` })],
@@ -31,7 +36,8 @@ var size_default = [
 
 // src/theme/index.ts
 var theme_default = [
-  ...size_default
+  ...size_default,
+  ...color_default
 ];
 
 // src/index.ts
