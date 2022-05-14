@@ -1,15 +1,11 @@
-import { Presets, PresetsRulesReg, PresetsRulesString } from ".";
+import type { Presets, PresetsRulesReg, PresetsRulesString, Vunocss } from "./types";
+import { classReg } from "./regexps";
+import { Compiler } from "./compiler";
 
 export function createContext(presets: Presets[]) {
   return new Context(presets)
 }
-interface Vunocss {
-  key: string,
-  attrs: { [key: string]: string }
-  flag?: number
-}
-const classReg = /class=[\"|\'](.+?)[\"|\']/g;
-class Context {
+export class Context {
   _presets: Presets[]
   _rulesSting: PresetsRulesString[] = []
   _rulesReg: PresetsRulesReg[] = []
@@ -31,11 +27,14 @@ class Context {
         } else if (flag.test) {
           this._rulesReg.push(rule as PresetsRulesReg)
         }
-      }) 
+      })
     })
   }
-  generatorCode(code: string) {
-    
+  parseCode(code: string) {
+    this.extractClasses(code)
+    new Compiler(this)
+  }
+  extractClasses(code: string) {
     while (true) {
       const exec = classReg.exec(code);
       if (exec) {
@@ -52,66 +51,12 @@ class Context {
         break;
       }
     }
-    this.patch()
   }
-  patch() {
-    this.generatorClassName()
-  }
-  generatorClassName() {
-    this._classNameSet.forEach(className => {
-      this._rulesSting.forEach(rulesSting => {
-        const ruleSting = rulesSting[0]
-        const fnRes = rulesSting[1]()
-        if (className === ruleSting) {
-          generatorCache(this, className, fnRes)
-        }
-      })
-
-      this._rulesReg.forEach(rulesReg => {
-        const reg = rulesReg[0]
-        const fn = rulesReg[1]
-        const exec = reg.exec(className)
-        if (exec) {
-          const fnRes = fn(exec)
-          generatorCache(this, className, fnRes)
-        }
-      })
-    })
-    console.log(this._vunocss);
-    
-    this.convertCss()
-  }
-  convertCss() {
-    let css = ''
-    this._vunocss.forEach(vunocss => {
-      let attrStr = ''
-      Object.keys(vunocss.attrs).forEach(key => {
-        const value = vunocss.attrs[key]
-        attrStr+=`${key}:${value};`
-      })
-      css+=`.${vunocss.key}{${attrStr}}`
-    });
-    console.log(css);
-    reset(this)
-    return css
+  reset() {
+    this._vunocss.length = 0
+    this._classNameSet.clear()
+    this._pseudoClassSet.clear()
   }
 }
 
-function generatorCache(ctx: Context, className: string, fnRes: any) {
-  let cacheVunocss = ctx._cache.get(className)
-  if (cacheVunocss) {
-  } else {
-    cacheVunocss = {
-      key: className,
-      attrs: fnRes
-    }
-    ctx._cache.set(className, cacheVunocss)
-   
-  }
-  ctx._vunocss.push(cacheVunocss)
-}
-function reset(ctx: Context) {
-  ctx._vunocss.length = 0
-  ctx._classNameSet.clear()
-  ctx._pseudoClassSet.clear()
-}
+
