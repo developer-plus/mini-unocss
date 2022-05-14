@@ -1,0 +1,16 @@
+{
+  "name": "@developer-plus/mini-unocss-core",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "^5.12.7",
+    "vite": "^2.9.9"
+  }
+}

@@ -1,19 +1,12 @@
 {
-  "name": "mini-unocss",
-  "private": true,
+  "name": "@developer-plus/mini-unocss",
   "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "vue": "^3.2.25"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.3",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.9",
-    "vue-tsc": "^0.34.7"
-  }
+  "keywords": [],
+  "author": "developer-plus",
+  "license": "MIT"
 }
