@@ -2,11 +2,30 @@
   "name": "@developer-plus/mini-unocss",
   "version": "0.0.0",
   "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "developer-plus",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "husky install",
+    "dev": "npm run dev -C playground",
+    "preview": "npm run preview -C playground",
+    "build": "npm run build -C packages/core",
+    "lint": "lint-staged"
   },
-  "keywords": [],
-  "author": "developer-plus",
-  "license": "MIT"
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.23.1",
+    "@commitlint/cli": "^16.3.0",
+    "@commitlint/config-conventional": "^16.2.4",
+    "@vue/tsconfig": "^0.1.3",
+    "eslint": "^8.15.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.1"
+  },
+  "lint-staged": {
+    "*.{vue,js,jsx,ts,tsx,json}": "eslint --fix"
+  },
+  "eslintConfig": {
+    "extends": "@antfu"
+  }
 }

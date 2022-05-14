@@ -1,6 +1,6 @@
-import { createContext } from "./context"
-import { PluginOption } from 'vite'
-import { filterVue } from "./utils"
+import type { PluginOption } from 'vite'
+import { createContext } from './context'
+import { filterVue } from './utils'
 import type { MiniunocssParams } from './types'
 
 export function miniunocss({ presets }: MiniunocssParams) {
@@ -9,10 +9,10 @@ export function miniunocss({ presets }: MiniunocssParams) {
     name: 'miniunocss',
     enforce: 'pre',
     transform(code, id) {
-      if (!filterVue(id)) return
+      if (!filterVue(id))
+        return
       context.parseCode(code)
       return null
-    }
+    },
   } as PluginOption
 }
-

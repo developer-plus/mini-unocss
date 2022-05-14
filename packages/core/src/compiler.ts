@@ -1,24 +1,25 @@
-import { Context } from "./context";
-import { CssGenerator } from "./generator";
+import type { Context } from './context'
+import { CssGenerator } from './generator'
 
 export class Compiler {
   constructor(public _ctx: Context) {
     this.patch()
   }
+
   patch() {
-   this.compilerClass()
+    this.compilerClass()
   }
+
   compilerClass() {
-    this._ctx._classNameSet.forEach(className => {
-      this._ctx._rulesSting.forEach(rulesSting => {
+    this._ctx._classNameSet.forEach((className) => {
+      this._ctx._rulesSting.forEach((rulesSting) => {
         const ruleSting = rulesSting[0]
         const fnRes = rulesSting[1]()
-        if (className === ruleSting) {
+        if (className === ruleSting)
           loadCache(this._ctx, className, fnRes)
-        }
       })
 
-      this._ctx._rulesReg.forEach(rulesReg => {
+      this._ctx._rulesReg.forEach((rulesReg) => {
         const reg = rulesReg[0]
         const fn = rulesReg[1]
         const exec = reg.exec(className)
@@ -38,7 +39,7 @@ function loadCache(ctx: Context, className: string, fnRes: any) {
   if (!cacheVunocss) {
     cacheVunocss = {
       key: className,
-      attrs: fnRes
+      attrs: fnRes,
     }
     ctx._cache.set(className, cacheVunocss)
   }

@@ -1,6 +1,6 @@
-import type { Presets, PresetsRulesReg, PresetsRulesString, Vunocss } from "./types";
-import { classReg } from "./regexps";
-import { Compiler } from "./compiler";
+import type { Presets, PresetsRulesReg, PresetsRulesString, Vunocss } from './types'
+import { classReg } from './regexps'
+import { Compiler } from './compiler'
 
 export function createContext(presets: Presets[]) {
   return new Context(presets)
@@ -18,45 +18,50 @@ export class Context {
     // 初始化正则
     this.initRules(this._presets)
   }
+
   initRules(presets: Presets[]) {
-    presets.forEach(preset => {
-      preset.rules.forEach(rule => {
+    presets.forEach((preset) => {
+      preset.rules.forEach((rule) => {
         const flag = rule[0]
-        if (typeof flag === 'string') {
+        if (typeof flag === 'string')
           this._rulesSting.push(rule as PresetsRulesString)
-        } else if (flag.test) {
+
+        else if (flag.test)
           this._rulesReg.push(rule as PresetsRulesReg)
-        }
       })
     })
   }
+
   parseCode(code: string) {
     this.extractClasses(code)
-    new Compiler(this)
+    const compiler = new Compiler(this)
+    return compiler
   }
+
   extractClasses(code: string) {
     while (true) {
-      const exec = classReg.exec(code);
+      const exec = classReg.exec(code)
       if (exec) {
-        const res = exec[1];
+        const res = exec[1]
         // todo 伪类
-        res.split(" ").forEach((it) => {
-          if (/\:/.test(it)) {
+        res.split(' ').forEach((it) => {
+          if (/\:/.test(it))
             this._pseudoClassSet.add(it)
-          } else {
-            this._classNameSet.add(it);
-          }
-        });
-      } else {
-        break;
+
+          else
+            this._classNameSet.add(it)
+        })
+      }
+      else {
+        break
       }
     }
   }
+
   reset() {
     this._vunocss.length = 0
     this._classNameSet.clear()
     this._pseudoClassSet.clear()
   }
 }
-
 
