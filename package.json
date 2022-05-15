@@ -1,5 +1,12 @@
 {
   "private": true,
+  "version": "1.0.0",
   "author": "developer-plus",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "publish": "bumpp package.json --commit \"chore: release v%s\" --push --tag && pnpm -r publish --access public"
+  },
+  "dependencies": {
+    "bumpp": "^7.1.1"
+  }
 }
