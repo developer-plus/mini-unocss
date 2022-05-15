@@ -1,14 +1,28 @@
 {
-  "name": "@developer-plus/mini-unocss-core",
-  "version": "0.1.1",
-  "description": "",
+  "name": "@developer-plus/mini-unocss",
+  "version": "0.0.1",
+  "description": "A mini version of unocss.",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsup"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developer-plus/mini-unocss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/developer-plus/mini-unocss/issues"
+  },
+  "homepage": "https://github.com/developer-plus/mini-unocss#readme",
+  "keywords": [
+    "css",
+    "unocss"
+  ],
+  "files": [
+    "dist"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "tsup": "^5.12.7",
     "vite": "^2.9.9"

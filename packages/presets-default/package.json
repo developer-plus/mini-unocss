@@ -1,14 +1,25 @@
 {
-  "name": "@developer-plus/mini-unocss-presets-default",
+  "name": "@developer-plus/mini-unocss-preset",
   "version": "0.0.1",
-  "description": "",
+  "description": "The default preset for mini unocss.",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsup"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developer-plus/mini-unocss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/developer-plus/mini-unocss/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/developer-plus/mini-unocss#readme",
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "tsup": "^5.12.7"
   }

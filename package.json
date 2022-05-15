@@ -1,12 +1,5 @@
 {
-  "name": "@developer-plus/mini-unocss",
-  "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
+  "private": true,
   "author": "developer-plus",
   "license": "MIT"
 }
