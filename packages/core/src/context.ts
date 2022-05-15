@@ -13,7 +13,8 @@ export function createContext(presets: Presets[]) {
   return new Context(presets);
 }
 export class Context {
-  code: string
+  buildResolve: any
+  _code: string
   _css: string
   _presets: Presets[];
   _rulesSting: PresetsRulesString[] = [];
@@ -42,6 +43,15 @@ export class Context {
     this.extractClasses(code);
     new Compiler(this);
     return this._css
+  }
+  async _waitAndParseCode() {
+    return new Promise<string>(res => {
+      this.buildResolve = res
+    }).then(code => {
+      this.extractClasses(code);
+      new Compiler(this);
+      return this._css
+    })
   }
   extractClasses(code: string) {
     while (true) {
@@ -89,5 +99,12 @@ export class Context {
     if (brackets.test(res.className)) {
       res.flag |= Flags.ARBITRARY_VALUE;
     }
+  }
+  get code() {
+    return this._code
+  }
+  set code(c: string) {
+    this._code = c
+    if (this.buildResolve) this.buildResolve(c)
   }
 }

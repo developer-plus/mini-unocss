@@ -7,7 +7,7 @@ import type { MiniunocssParams } from './types'
 let server: ViteDevServer
 
 function invalidateVirtualModule(server: ViteDevServer, id: string): void {
-  if(!server) return
+  if (!server) return
   const { moduleGraph, ws } = server
   const module = moduleGraph.getModuleById(id)
   if (module) {
@@ -15,7 +15,7 @@ function invalidateVirtualModule(server: ViteDevServer, id: string): void {
     if (ws) {
       ws.send({
         type: 'full-reload',
-        path: '*'
+        path: 'u.css'
       })
     }
   }
@@ -37,11 +37,11 @@ export function miniunocss({ presets }: MiniunocssParams) {
       return null
     },
     resolveId(i) {
-      return i ==='u.css' ? i : null
+      return i === 'u.css' ? i : null
     },
     load(i) {
       if (i === 'u.css') {
-        return context.parseCode(context.code)
+        return server ? context.parseCode(context.code) : context._waitAndParseCode()
       }
       return null
     },
