@@ -1,6 +1,6 @@
 # mini-unocss
 
-一个 mini 版本的 [unocss](https://github.com/unocss/unocss)。
+一个即时按需的原子 CSS 引擎，[unocss](https://github.com/unocss/unocss) 的 mini 版本。
 
 ## 使用
 
