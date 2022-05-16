@@ -9,7 +9,16 @@
     "type": "git",
     "url": "git+https://github.com/developer-plus/mini-unocss.git"
   },
-  "main": "./dist/index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
