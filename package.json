@@ -4,6 +4,7 @@
   "author": "developer-plus",
   "license": "MIT",
   "scripts": {
+    "postinstall":"cd ./packages/core && pnpm build && cd ../presets-default && pnpm build",
     "publish": "bumpp package.json --commit \"chore: release v%s\" --push --tag && pnpm -r publish --access public"
   },
   "dependencies": {
