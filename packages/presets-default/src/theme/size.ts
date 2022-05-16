@@ -1,4 +1,4 @@
-import { PresetsRules } from "../types";
+import type { PresetsRules } from '../types'
 
 export default [
   [/^w-(.+?)$/, ([_, d], isNotUnit) => ({ width: isNotUnit ? `${d}px` : d })],

@@ -2,29 +2,35 @@
   "name": "@developer-plus/mini-unocss",
   "version": "1.0.0",
   "description": "A mini version of unocss.",
-  "main": "./dist/index.js",
-  "scripts": {
-    "build": "tsup"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/developer-plus/mini-unocss.git"
-  },
-  "bugs": {
-    "url": "https://github.com/developer-plus/mini-unocss/issues"
-  },
-  "homepage": "https://github.com/developer-plus/mini-unocss#readme",
   "keywords": [
     "css",
     "unocss"
   ],
+  "license": "MIT",
+  "author": "@developer-plus",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developer-plus/mini-unocss.git"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "tsup": "^5.12.7",
-    "vite": "^2.9.9"
-  }
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "bugs": {
+    "url": "https://github.com/developer-plus/mini-unocss/issues"
+  },
+  "homepage": "https://github.com/developer-plus/mini-unocss#readme"
 }
