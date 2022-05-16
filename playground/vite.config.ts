@@ -7,5 +7,5 @@ import presets from '@developer-plus/mini-unocss-preset'
 export default defineConfig({
   plugins: [vue(), miniunocss({
     presets,
-  })]
+  })],
 })

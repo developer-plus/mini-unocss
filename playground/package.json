@@ -1,7 +1,7 @@
 {
   "name": "@developer-plus/mini-unocss-playground",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -14,8 +14,6 @@
     "@developer-plus/mini-unocss": "workspace:*",
     "@developer-plus/mini-unocss-preset": "workspace:*",
     "@vitejs/plugin-vue": "^2.3.3",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.9",
     "vue-tsc": "^0.34.7"
   }
 }

@@ -1,6 +1,5 @@
-import { PresetsRules } from "../types";
-
+import type { PresetsRules } from '../types'
 
 export default [
-  [/^bg-\[?(.+?)\]?$/, ([_, d], isNotUnit) => ({ 'background-color': `${d}` })],
+  [/^bg-\[?(.+?)\]?$/, ([_, d], _isNotUnit) => ({ 'background-color': `${d}` })],
 ] as PresetsRules[]

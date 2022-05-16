@@ -1,13 +1,13 @@
-import { createContext } from "./context"
-import { PluginOption, ViteDevServer } from 'vite'
-import { filterVue } from "./utils"
+import type { PluginOption, ViteDevServer } from 'vite'
+import { createContext } from './context'
+import { filterVue } from './utils'
 import type { MiniunocssParams } from './types'
-
 
 let server: ViteDevServer
 
 function invalidateVirtualModule(server: ViteDevServer, id: string): void {
-  if (!server) return
+  if (!server)
+    return
   const { moduleGraph, ws } = server
   const module = moduleGraph.getModuleById(id)
   if (module) {
@@ -15,7 +15,7 @@ function invalidateVirtualModule(server: ViteDevServer, id: string): void {
     if (ws) {
       ws.send({
         type: 'full-reload',
-        path: 'u.css'
+        path: 'u.css',
       })
     }
   }
@@ -31,7 +31,8 @@ export function miniunocss({ presets }: MiniunocssParams) {
     name: 'miniunocss',
     enforce: 'pre',
     transform(code, id) {
-      if (!filterVue(id)) return
+      if (!filterVue(id))
+        return
       context.code = code
       update()
       return null
@@ -40,9 +41,9 @@ export function miniunocss({ presets }: MiniunocssParams) {
       return i === 'u.css' ? i : null
     },
     load(i) {
-      if (i === 'u.css') {
+      if (i === 'u.css')
         return server ? context.parseCode(context.code) : context._waitAndParseCode()
-      }
+
       return null
     },
     configureServer(_server: ViteDevServer) {

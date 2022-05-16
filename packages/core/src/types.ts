@@ -1,8 +1,8 @@
-import { Flags } from "./flags"
+import type { Flags } from './flags'
 
 export interface Vunocss {
-  className: string,
-  attrs: { [key: string]: string }
+  className: string
+  attrs: Record<string, string>
   flag: Flags
   pseudo?: string
   name?: string
@@ -16,8 +16,7 @@ export interface VClass {
 
 export type PresetsRules = PresetsRulesString | PresetsRulesReg
 export type PresetsRulesString = [string, (isNotUnit: boolean) => any]
-export type PresetsRulesReg = [RegExp, (exec: RegExpExecArray,isNotUnit: boolean) => any]
-
+export type PresetsRulesReg = [RegExp, (exec: RegExpExecArray, isNotUnit: boolean) => any]
 
 export interface MiniunocssParams {
   presets: Presets[]
