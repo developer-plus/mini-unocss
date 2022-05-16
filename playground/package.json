@@ -1,5 +1,5 @@
 {
-  "name": "@developer-plus/mini-unocss-playground",
+  "name": "playground",
   "version": "0.0.0",
   "private": true,
   "scripts": {

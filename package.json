@@ -6,10 +6,10 @@
   "author": "developer-plus",
   "scripts": {
     "dev": "pnpm run stub",
-    "build": "rimraf packages/*/dist && pnpm -r --filter !playground run build",
+    "build": "rimraf packages/*/dist && pnpm -r -F !playground run build",
     "stub": "pnpm -r --parallel run stub",
     "lint": "eslint .",
-    "play": "npm -C playground run dev",
+    "play": "pnpm -C playground run dev",
     "postinstall": "cd ./packages/core && pnpm build && cd ../presets-default && pnpm build",
     "publish": "bumpp package.json --commit \"chore: release v%s\" --push --tag && pnpm -r publish --access public"
   },
