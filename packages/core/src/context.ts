@@ -34,8 +34,8 @@ export class Context {
         const flag = rule[0]
         if (typeof flag === 'string')
           this._rulesSting.push(rule as PresetsRulesString)
-        // else if (flag.test)
-        //   this._rulesReg.push(rule as PresetsRulesReg)
+        else
+          this._rulesReg.push(rule as PresetsRulesReg)
       })
     })
   }
