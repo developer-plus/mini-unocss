@@ -3,6 +3,7 @@
 一个即时按需的原子 CSS 引擎，[unocss](https://github.com/unocss/unocss) 的 mini 版本。
 
 > 注意，当前版本代码仍很不完善，`mini-unocss` 即将大重构，若您想参与贡献/研究原理，可关注项目开发进度。
+> move to [amcss](https://github.com/developer-plus/amcss)(重构版本)
 
 ## 使用
 
