@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@developer-plus/eslint-config': ^0.1.0
+      '@developer-plus/eslint-config': 0.1.1
       bumpp: ^7.1.1
       eslint: ^8.15.0
       rimraf: ^3.0.2
@@ -13,7 +13,7 @@ importers:
       unbuild: ^0.7.4
       vite: ^2.9.9
     devDependencies:
-      '@developer-plus/eslint-config': 0.1.0_hcfsmds2fshutdssjqluwm76uu
+      '@developer-plus/eslint-config': 0.1.1_hcfsmds2fshutdssjqluwm76uu
       bumpp: registry.npmmirror.com/bumpp/7.1.1
       eslint: 8.15.0
       rimraf: 3.0.2
@@ -244,8 +244,8 @@ packages:
       '@babel/helper-validator-identifier': 7.16.7
       to-fast-properties: 2.0.0
 
-  /@developer-plus/eslint-config-basic/0.1.0_c63nfttrfhylg3zmgcxfslaw44:
-    resolution: {integrity: sha512-cy+PptgAEujlf05KDNOLhMfmypZYXx6knpMj3rEup3ZLyF5Z5AzIpHafYovAQcrGsfzwz/klv3yvClfXAWxfhw==}
+  /@developer-plus/eslint-config-basic/0.1.1_c63nfttrfhylg3zmgcxfslaw44:
+    resolution: {integrity: sha512-g6cblVOif/dJieYqPmTqqAk/a/NX07bmQrKC9DCF4GDAiqY5DkJtfKh9Sv6Er2CEBLjm5IdCTuvDWyzOXnVq2Q==}
     peerDependencies:
       eslint: '>=7.4.0'
     dependencies:
@@ -270,12 +270,12 @@ packages:
       - typescript
     dev: true
 
-  /@developer-plus/eslint-config-react/0.1.0_hcfsmds2fshutdssjqluwm76uu:
-    resolution: {integrity: sha512-neYWHi0jbdWptNMic0DAoV++kM6PwZp/ART9GkbyYALiFlDcFXoVUWHge9HuTbCJnBnQv9LOG2+NBS6gTDqnMw==}
+  /@developer-plus/eslint-config-react/0.1.1_hcfsmds2fshutdssjqluwm76uu:
+    resolution: {integrity: sha512-4jRiv9efAxsxNX50/Nq05xLW7akZtT2y6FP3rB8gGxACpeMZqT9uW9mGdasaI1B8ghNL5hnh/Gx+GOVwu07+SA==}
     peerDependencies:
       eslint: '>=7.4.0'
     dependencies:
-      '@developer-plus/eslint-config-ts': 0.1.0_hcfsmds2fshutdssjqluwm76uu
+      '@developer-plus/eslint-config-ts': 0.1.1_hcfsmds2fshutdssjqluwm76uu
       eslint: 8.15.0
       eslint-plugin-react: 7.29.4_eslint@8.15.0
     transitivePeerDependencies:
@@ -285,13 +285,13 @@ packages:
       - typescript
     dev: true
 
-  /@developer-plus/eslint-config-ts/0.1.0_hcfsmds2fshutdssjqluwm76uu:
-    resolution: {integrity: sha512-VA+7KSfmEuXDyGJ4pMB5HnEVJToLU8gAYaW8i6e9oQQBBJuDNm88O3nPPJeAMFla+QY0s3DFYVIeHM+g8vWuDQ==}
+  /@developer-plus/eslint-config-ts/0.1.1_hcfsmds2fshutdssjqluwm76uu:
+    resolution: {integrity: sha512-4ZGrkngSvtnq5mql8HjpVMT45m43nKDLNELCAjhnmzlBC9otbfLLMlsgVmkuUCpm1FFLWjbqjklmqe+941kcWg==}
     peerDependencies:
       eslint: '>=7.4.0'
       typescript: '>=3.9'
     dependencies:
-      '@developer-plus/eslint-config-basic': 0.1.0_c63nfttrfhylg3zmgcxfslaw44
+      '@developer-plus/eslint-config-basic': 0.1.1_c63nfttrfhylg3zmgcxfslaw44
       '@typescript-eslint/eslint-plugin': 5.23.0_c63nfttrfhylg3zmgcxfslaw44
       '@typescript-eslint/parser': 5.23.0_hcfsmds2fshutdssjqluwm76uu
       eslint: 8.15.0
@@ -302,12 +302,12 @@ packages:
       - supports-color
     dev: true
 
-  /@developer-plus/eslint-config-vue/0.1.0_hcfsmds2fshutdssjqluwm76uu:
-    resolution: {integrity: sha512-LyT/mgUryHbrVvI40wvyvKCuxfl+73mSrffe6TfKubdGcvC9QwQSsODqMvYxRA+TahTOF/WQi0+roJL9lxZ4eQ==}
+  /@developer-plus/eslint-config-vue/0.1.1_hcfsmds2fshutdssjqluwm76uu:
+    resolution: {integrity: sha512-Yenfi0NaqPmZz1NIem+8LNZsirrVRnva42kYRfwtT8nb0Zh5q9NO0n9cn+zlZ+EzSGM8F0a4XX7opl/kjgr0mA==}
     peerDependencies:
       eslint: '>=7.4.0'
     dependencies:
-      '@developer-plus/eslint-config-ts': 0.1.0_hcfsmds2fshutdssjqluwm76uu
+      '@developer-plus/eslint-config-ts': 0.1.1_hcfsmds2fshutdssjqluwm76uu
       eslint: 8.15.0
       eslint-plugin-vue: 8.7.1_eslint@8.15.0
     transitivePeerDependencies:
@@ -317,13 +317,13 @@ packages:
       - typescript
     dev: true
 
-  /@developer-plus/eslint-config/0.1.0_hcfsmds2fshutdssjqluwm76uu:
-    resolution: {integrity: sha512-Q/42Yttj9z2QZ+a8LzB2q7J3ED1+vIvjPidaCYXwbgRKy2tIYvyLKQMijyugKCjZYzho6ifFkCg1b2mzT5Na+A==}
+  /@developer-plus/eslint-config/0.1.1_hcfsmds2fshutdssjqluwm76uu:
+    resolution: {integrity: sha512-ur9iLn+E3nHP81Pyin6lz5GsZtG7FPRYzDa7j+A/0DwkpM8stxQj/gycNT79QtZ2u7jLhvcDt//DO/EAAElmGA==}
     peerDependencies:
       eslint: '>=7.4.0'
     dependencies:
-      '@developer-plus/eslint-config-react': 0.1.0_hcfsmds2fshutdssjqluwm76uu
-      '@developer-plus/eslint-config-vue': 0.1.0_hcfsmds2fshutdssjqluwm76uu
+      '@developer-plus/eslint-config-react': 0.1.1_hcfsmds2fshutdssjqluwm76uu
+      '@developer-plus/eslint-config-vue': 0.1.1_hcfsmds2fshutdssjqluwm76uu
       '@typescript-eslint/eslint-plugin': 5.23.0_c63nfttrfhylg3zmgcxfslaw44
       '@typescript-eslint/parser': 5.23.0_hcfsmds2fshutdssjqluwm76uu
       eslint: 8.15.0

@@ -7,7 +7,7 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
     dts: {
-      respectExternal: false,
-    },
-  },
+      respectExternal: false
+    }
+  }
 })

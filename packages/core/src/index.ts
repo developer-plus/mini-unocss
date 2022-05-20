@@ -15,7 +15,7 @@ function invalidateVirtualModule(server: ViteDevServer, id: string): void {
     if (ws) {
       ws.send({
         type: 'full-reload',
-        path: 'u.css',
+        path: 'u.css'
       })
     }
   }
@@ -48,7 +48,7 @@ export function miniunocss({ presets }: MiniunocssParams) {
     },
     configureServer(_server: ViteDevServer) {
       server = _server
-    },
+    }
   } as PluginOption
 }
 
