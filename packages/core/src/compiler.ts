@@ -55,7 +55,7 @@ function loadCache(ctx: Context, vClass: VClass, fnRes: any) {
       attrs: fnRes,
       flag,
       pseudo,
-      name,
+      name
     }
     ctx._cache.set(className, cacheVunocss)
   }

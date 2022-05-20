@@ -3,5 +3,5 @@ import Size from './size'
 
 export default [
   ...Size,
-  ...Color,
+  ...Color
 ]

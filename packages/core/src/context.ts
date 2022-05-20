@@ -3,7 +3,7 @@ import type {
   PresetsRulesReg,
   PresetsRulesString,
   VClass,
-  Vunocss,
+  Vunocss
 } from './types'
 import { brackets, classReg } from './regexps'
 import { Compiler } from './compiler'
@@ -68,7 +68,7 @@ export class Context {
         res.split(' ').forEach((it) => {
           const res: VClass = {
             className: it,
-            flag: Flags.DEFAULT,
+            flag: Flags.DEFAULT
           }
           const splitClass = it.split(':')
           if (splitClass.length > 1) {
